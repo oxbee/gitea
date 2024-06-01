@@ -79,6 +79,21 @@ For example:
 docker push gitea.example.com/testuser/myimage:latest
 ```
 
+### Known bugs
+
+As stated in [#27640](https://github.com/go-gitea/gitea/issues/27640) for MacOS docker clients, `push` command will fail with: 
+
+> unexpected status from PUT request to https://gitea.example.com/v2/{owner}/{image}/manifests/{tag}: 500 Internal Server Error
+
+The proposed workaround is be to build an image without [Provenance attestations](https://docs.docker.com/build/attestations/slsa-provenance/):
+
+```shell
+docker build . \
+  --tag gitea.example.com/testuser/myimage:latest . \
+  --provenance=false \
+  --push
+```
+
 ## Pull an image
 
 Pull an image by executing the following command:
